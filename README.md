@@ -1,70 +1,192 @@
-# Getting Started with Create React App
+# Configuração de Rotas com React Router
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este guia explica como configurar rotas básicas e sub-rotas em uma aplicação React usando o React Router.
 
-## Available Scripts
+Objetivos:
 
-In the project directory, you can run:
+ - Configurar rotas básicas (página inicial e sobre).
+ - Adicionar sub-rotas em páginas específicas.
+ - Passos para Configuração.
 
-### `npm start`
+## 1. Instalar o React Router
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Primeiro, instale o React Router no seu projeto:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npx create-react-app react-router-basico
+cd react-router-basico
+npm install react-router-dom
+```
 
-### `npm test`
+## 2.  Configuração das Rotas Básicas
+Componente App.js
+Configure as rotas principais para as páginas Home e About:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import About from './About';
 
-### `npm run build`
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
+  );
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default App;
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Componente Home.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Exibe a página inicial:
 
-### `npm run eject`
+```jsx
+function Home() {
+  return <h1>Página Inicial</h1>;
+}
+export default Home;
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Componente About.js
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Exibe a página "Sobre":
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```jsx
+function About() {
+  return <h1>Sobre</h1>;
+}
+export default About;
+```
+## 3. Configuração de Sub-Rotas.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Agora, adicione sub-rotas dentro das páginas "Home" e "About".
 
-## Learn More
+## Componente App.js Atualizado
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import About from './About';
+import Section1 from './Section1';
+import Section2 from './Section2';
+import History from './History';
+import Team from './Team';
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route path="section1" element={<Section1 />} />
+          <Route path="section2" element={<Section2 />} />
+        </Route>
+        <Route path="/about" element={<About />}>
+          <Route path="history" element={<History />} />
+          <Route path="team" element={<Team />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
 
-### Code Splitting
+export default App;
+```
+## Componente Home.js com Sub-Rotas
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```jsx
+import { Link, Outlet } from 'react-router-dom';
 
-### Analyzing the Bundle Size
+function Home() {
+  return (
+    <div>
+      <h1>Página Inicial</h1>
+      <nav>
+        <ul>
+          <li><Link to="section1">Seção 1</Link></li>
+          <li><Link to="section2">Seção 2</Link></li>
+        </ul>
+      </nav>
+      <Outlet />
+    </div>
+  );
+}
+export default Home;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Componente About.js com Sub-Rotas
 
-### Making a Progressive Web App
+```jsx
+import { Link, Outlet } from 'react-router-dom';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+function About() {
+  return (
+    <div>
+      <h1>Sobre</h1>
+      <nav>
+        <ul>
+          <li><Link to="history">História</Link></li>
+          <li><Link to="team">Equipe</Link></li>
+        </ul>
+      </nav>
+      <Outlet />
+    </div>
+  );
+}
+export default About;
+```
 
-### Advanced Configuration
+## Componente Section1.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```jsx
+function Section1() {
+  return <h2>Seção 1</h2>;
+}
+export default Section1;
+```
 
-### Deployment
+## Componente Section2.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```jsx
+function Section2() {
+  return <h2>Seção 2</h2>;
+}
+export default Section2;
+```
 
-### `npm run build` fails to minify
+## Componente History.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```jsx
+function History() {
+  return <h2>História</h2>;
+}
+export default History;
+```
+
+## Componente Team.js
+
+```jsx
+function Team() {
+  return <h2>Equipe</h2>;
+}
+export default Team;
+```
+
+
+## 4. Acessando as Sub-Rotas
+
+As rotas e sub-rotas configuradas são:
+
+ - Página Inicial: /
+    - Seção 1: /home/section1
+    - Seção 2: /home/section2
+ - Sobre: /about
+
+    - História: /about/history
+    - Equipe: /about/team
